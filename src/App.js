@@ -9,6 +9,7 @@ import ForgotPassword from "./components/ForgotPassword";
 
 import { Container } from "react-bootstrap";
 import { AuthProvider } from "./contexts/AuthContext";
+import Layout from "./layout";
 
 function App() {
   return (
@@ -19,18 +20,22 @@ function App() {
       >
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <AuthProvider>
+            {/* L */}
             <Routes>
               <Route exact path="/" element={<PrivateRoute />}>
-                <Route exact path="/" element={<Dashboard />} />
+                <Route exact path="/" element={<Layout />}>
+                  <Route exact path="/home" element={<Dashboard />} />
+                  <Route path="/update-profile" element={<UpdateProfile />} />
+                  <Route path="/" element={<Navigate replace to="/home" />} />
+                </Route>
               </Route>
-              <Route path="/login" element={<Login />} />
 
+              {/* Login  */}
+              <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
 
-              <Route path="/update-profile" element={<PrivateRoute />}>
-                <Route path="/update-profile" element={<UpdateProfile />} />
-              </Route>
+              <Route path="/" element={<Navigate replace to="/login" />} />
             </Routes>
           </AuthProvider>
         </div>
